@@ -1,0 +1,14 @@
+[wsl2]
+memory=24GB
+swap=24GB
+networkingMode=NAT
+dnsTunneling=true
+autoProxy=true
+dnsProxy=true
+
+[experimental]
+autoMemoryReclaim=gradual
+sparseVhd=true
+useWindowsDnsCache=true
+hostAddressLoopback=true
+bestEffortDnsParsing=true
