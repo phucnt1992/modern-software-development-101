@@ -28,7 +28,7 @@ wsl --version
 
 # Setup wslconfig to USERPROFILE
 # Refrence https://learn.microsoft.com/en-us/windows/wsl/wsl-config
-cp $ScriptDirectory/wslconf $env:USERPROFILE/.wslconfig
+cp $ScriptDirectory/.wslconfig $env:USERPROFILE/.wslconfig
 
 # Start WSL2 and setup account
 wsl -d Ubuntu
