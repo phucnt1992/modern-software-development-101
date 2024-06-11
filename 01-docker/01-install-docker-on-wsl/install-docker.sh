@@ -40,7 +40,7 @@ echo "Post installation steps..."
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
-# Fix permissions
+# Fix permissions, ignore error if .docker dir does NOT exist
 sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
 sudo chmod g+rwx "$HOME/.docker" -R
 
