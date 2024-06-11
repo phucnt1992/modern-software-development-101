@@ -22,11 +22,12 @@ When('I request to {string}', async ({}, endpoint: string) => {
   response = await apiContext.get(endpoint);
 });
 
-Then('I should receive a response with status {int}', async ({}, status: number) => {
-  expect(response.status()).toBe(status);
+Then('I should receive a response with status {int}', async ({}, expectedStatus: number) => {
+  expect(response.status()).toBe(expectedStatus);
 });
 
-Then('I should receive a response with body {string}', async ({}, body: string) => {
-  expect(response.body()).toBe(body);
+Then('I should receive a response with body {string}', async ({}, expectedBody: string) => {
+  const actualBody = await response.text();
+  expect(actualBody).toBe(expectedBody);
 });
 
