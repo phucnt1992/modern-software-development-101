@@ -21,6 +21,9 @@ wsl --set-default-version 2
 wsl --install Ubuntu
 
 # Upgrade latest WSL2 Linux Kernel
+wsl --update
+
+# Upgrade to pre-release WSL2 Linux Kernel
 wsl --update --pre-release
 
 # Test WSL2 version

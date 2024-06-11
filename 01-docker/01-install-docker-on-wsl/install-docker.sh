@@ -39,7 +39,6 @@ echo "Post installation steps..."
 # Manage Docker as a non-root user
 sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker
 
 # Fix permissions
 sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
