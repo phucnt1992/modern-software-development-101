@@ -27,15 +27,15 @@ When("I request to {string}", async ({}, endpoint: string) => {
 
 Then(
   "I should receive a response with status {int}",
-  async ({}, status: number) => {
-    expect(response.status()).toBe(status);
+  async ({}, expectedStatus: number) => {
+    expect(response.status()).toBe(expectedStatus);
   }
 );
 
 Then(
-  "I should receive a response with body {string} ",
-  async ({}, body: string) => {
-    const responseBody = (await response.body()).toString();
-    expect(responseBody).toBe(body);
+  "I should receive a response with body {string}",
+  async ({}, expectedBody: string) => {
+    const actualBody = await response.text();
+    expect(actualBody).toBe(expectedBody);
   }
 );
