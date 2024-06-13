@@ -1,0 +1,15 @@
+{
+  "name": "04-build-docker-app-on-wsl",
+  "version": "1.0.0",
+  "description": "- Build a simple Healthcheck API, which exposes 2 Liveness and Readiness healthcheck endpoints.\r - Build a Dockerfile to containerize the application.\r - Run the application in a Docker container.\r - Run `npm test` to verify the test results.\r - Create Pull Request with the changes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
