@@ -33,7 +33,7 @@ Then(
 );
 
 Then(
-  "I should receive a response with body {string}",
+  "I should receive a response with body {string} ",
   async ({}, body: string) => {
     const responseBody = (await response.body()).toString();
     expect(responseBody).toBe(body);
