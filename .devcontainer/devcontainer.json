@@ -1,0 +1,66 @@
+{
+  "name": "Modern Software Development 101",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/git": {
+      "ppa": true
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker": {
+      "dockerDashComposeVersion": "v2",
+      "installDockerBuildx": true,
+      "moby": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/dotnet": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube": {
+      "helm": "latest",
+      "minikube": "latest",
+      "version": "latest"
+    },
+    "ghcr.io/audacioustux/devcontainers/taskfile": {},
+    "ghcr.io/devcontainers/features/python": {
+      "optimize": true,
+      "installTools": true,
+      "toolsToInstall": "black,isort,flake8"
+    },
+    "ghcr.io/devcontainers/features/java": {
+      "version": "latest",
+      "jdkDistro": "ms"
+    }
+  },
+  "postCreateCommand": "task init",
+  "forwardPorts": [
+    8000
+  ],
+  "portsAttributes": {
+    "8000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "task.vscode-task",
+        "SonarSource.sonarlint-vscode",
+        "redhat.vscode-yaml",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.flake8",
+        "hbenl.vscode-test-explorer",
+        "alexkrechik.cucumberautocomplete",
+        "ms-playwright.playwright"
+      ]
+    }
+  }
+}

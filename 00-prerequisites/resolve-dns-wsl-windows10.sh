@@ -9,7 +9,7 @@ cp $DIR/wsl.conf /etc/wsl.conf
 sudo chown root:root /etc/wsl.conf
 
 # Restart WSL
-wsl.exe --shutdown
+wsl``.exe --shutdown
 
 # Apply DNS to WSL
 sudo bash -c "cat <<EOF >> /etc/resolv.conf
