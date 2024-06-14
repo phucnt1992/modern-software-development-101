@@ -16,8 +16,8 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
-app.MapGet("/api/_healthz/liveness", () => Results.Ok());
-app.MapGet("/api/_healthz/readiness", () => Results.Ok());
+app.MapGet("/api/_healthz/liveness", () => "OK");
+app.MapGet("/api/_healthz/readiness", () => "OK");
 
 var summaries = new[]
 {
