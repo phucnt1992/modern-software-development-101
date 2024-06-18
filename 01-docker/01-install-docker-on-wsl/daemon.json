@@ -1,27 +1,27 @@
 {
-    "dns": [
-        "8.8.8.8",
-        "8.8.4.4",
-        "1.1.1.1",
-        "1.0.0.1"
-    ],
-    "hosts": [
-        "unix:///var/run/docker.sock",
-        "tcp://127.0.0.1:2375"
-    ],
-    "containerd": "/run/containerd/containerd.sock",
-    "insecure-registries": [
-        "localhost:32000"
-    ],
-    "iptables": true,
-    "log-driver": "json-file",
-    "log-opts": {
-        "max-size": "10m",
-        "max-file": "5",
-        "compress": "true"
-    },
-    "experimental": true,
-    "features": {
-        "buildkit": true
-    }
+  "dns": [
+    "8.8.8.8",
+    "8.8.4.4",
+    "1.1.1.1",
+    "1.0.0.1"
+  ],
+  "hosts": [
+    "unix:///var/run/docker.sock",
+    "tcp://127.0.0.1:2375"
+  ],
+  "containerd": "/run/containerd/containerd.sock",
+  "insecure-registries": [
+    "localhost:32000"
+  ],
+  "iptables": true,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "5",
+    "compress": "true"
+  },
+  "experimental": true,
+  "features": {
+    "buildkit": true
+  }
 }

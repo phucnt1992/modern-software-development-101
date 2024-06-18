@@ -1,0 +1,18 @@
+{
+  "ignorePaths": [
+    ".devcontainer"
+  ],
+  "words": [
+    "autoflush",
+    "bddgen",
+    "changeit",
+    "commitlint",
+    "devcontainer",
+    "fastapi",
+    "healthz",
+    "pydantic",
+    "sessionmaker",
+    "sqlalchemy",
+    "sqlmodel"
+  ]
+}
