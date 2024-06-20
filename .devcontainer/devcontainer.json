@@ -59,7 +59,8 @@
         "ms-python.flake8",
         "hbenl.vscode-test-explorer",
         "alexkrechik.cucumberautocomplete",
-        "ms-playwright.playwright"
+        "ms-playwright.playwright",
+        "bierner.markdown-mermaid"
       ]
     }
   }
