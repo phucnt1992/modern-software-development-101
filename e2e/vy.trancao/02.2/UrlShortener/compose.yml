@@ -14,17 +14,53 @@ services:
     networks:
       - simple_network
 
-  web:
-    image: server
-    build: ./WebServer
-    container_name: server
+  cache:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --loglevel warning
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    networks:
+    - simple_network
+
+  webserver:
+    image: webserver
+    build: 
+      context: .
+      dockerfile: ./WebServer/Dockerfile
+    container_name: webserver
     environment:
-      - APP_DB_URL=postgresql+asyncpg://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      - APP_DB_URL=Username=postgres;Password=${POSTGRES_PASSWORD};Host=db;Database=postgres;
+      - REDIS_HOST=cache
       - LOG_LEVEL=debug
     ports:
       - "8000:80"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/_healthz/readiness"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - simple_network
+    depends_on:
+      - db
+      - cache
+
+  redirector:
+    image: redirector
+    build: 
+      context: .
+      dockerfile: ./Redirector/Dockerfile
+    container_name: redirector
+    environment:
+      - APP_DB_URL=Username=postgres;Password=${POSTGRES_PASSWORD};Host=db;Database=postgres;
+      - LOG_LEVEL=debug
+    ports:
+      - "8001:81"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/api/_healthz/readiness"]
       interval: 5s
       timeout: 5s
       retries: 5
