@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebServer", "WebServer\WebS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{4AE0F50D-5B3A-4CC3-81F8-A3E74D6C3876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redirector", "Redirector\Redirector.csproj", "{F1A62995-9161-41B1-8A70-6CFB24A73834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redirector", "Redirector\Redirector.csproj", "{F1A62995-9161-41B1-8A70-6CFB24A73834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

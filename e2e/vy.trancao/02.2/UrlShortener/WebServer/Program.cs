@@ -9,17 +9,10 @@ using System;
 using System.Reflection;
 using System.Text.Json;
 using WebServer.Clients;
+using Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-var connectionString = Environment.GetEnvironmentVariable("APP_DB_URL");
-//var connectionString = "Username=postgres;Password=121002;Host=localhost;Database=ShortenUrl";
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    opt.UseNpgsql(connectionString,
-        b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name));
-});
+builder.Services.AddDatabase();
 
 builder.Services
     .AddRefitClient<IUlvisApi>()
@@ -34,6 +27,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var ulvisApi = scope.ServiceProvider.GetRequiredService<IUlvisApi>();
     ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("cache");
+    var server = redis.GetServer("cache", 6379);
     IDatabase cache = redis.GetDatabase();
     if (dbContext.Database.GetPendingMigrations().Any())
     {
@@ -98,7 +92,9 @@ using (var scope = app.Services.CreateScope())
         else
         {
             Console.WriteLine("Cache miss");
-            return dbContext.ShortenedUrls.FirstOrDefault(x => x.Full == url);
+            var shortenedUrl = dbContext.ShortenedUrls.FirstOrDefault(x => x.Full == url);
+            SetUrlCache(cacheKey, shortenedUrl);
+            return shortenedUrl;
         }
     }
 
@@ -108,14 +104,46 @@ using (var scope = app.Services.CreateScope())
         dbContext.ShortenedUrls.Add(shortenedUrl);
         dbContext.SaveChanges();
         Console.WriteLine("Write to cache with key: " + cacheKey);
-        cache.StringSet(cacheKey, JsonSerializer.Serialize(shortenedUrl));
-        cache.KeyExpire(cacheKey, TimeSpan.FromSeconds(3600));
+        SetUrlCache(cacheKey, shortenedUrl);
+    }
+
+    void SetUrlCache(string cacheKey, ShortenedUrl? shortenedUrl)
+    {
+        if (shortenedUrl is not null)
+        {
+            cache.StringSet(cacheKey, JsonSerializer.Serialize(shortenedUrl));
+            cache.KeyExpire(cacheKey, TimeSpan.FromSeconds(3600));
+        }
     }
 
     app.MapGet("/api/urls", () =>
     {
+        var urls = GetAllUrlsFromRedis();
+        urls.AddRange([.. dbContext.ShortenedUrls.Where(x => !urls.Select(u => u.Id).Contains(x.Id))]);
         return Results.Ok(dbContext.ShortenedUrls.ToArray());
     });
+
+    List<ShortenedUrl> GetAllUrlsFromRedis()
+    {
+        const string urlCacheKeyPattern = "urls:*";
+        var keys = server.Keys(pattern: urlCacheKeyPattern);
+        var urls = new List<ShortenedUrl>();
+
+        foreach (var key in keys)
+        {
+            var cachedUrl = cache.StringGet(key);
+            if (!string.IsNullOrEmpty(cachedUrl))
+            {
+                var shortenedUrl = JsonSerializer.Deserialize<ShortenedUrl>(cachedUrl);
+                if (shortenedUrl != null)
+                {
+                    urls.Add(shortenedUrl);
+                }
+            }
+        }
+
+        return urls;
+    }
 
     app.Run();
 }

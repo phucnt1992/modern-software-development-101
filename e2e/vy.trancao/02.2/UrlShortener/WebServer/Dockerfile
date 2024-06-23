@@ -24,5 +24,5 @@ RUN dotnet publish "./WebServer.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_HTTP_PORTS=80
+ENV ASPNETCORE_HTTP_PORTS=82
 ENTRYPOINT ["dotnet", "WebServer.dll"]

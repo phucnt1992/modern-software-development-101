@@ -1,16 +1,10 @@
 using Common.Database;
 using Common.Messages;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = Environment.GetEnvironmentVariable("APP_DB_URL");
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-builder.Services.AddDbContext<AppDbContext>(opt =>
-{
-    opt.UseNpgsql(connectionString);
-});
+builder.Services.AddDatabase();
 
 var app = builder.Build();
 

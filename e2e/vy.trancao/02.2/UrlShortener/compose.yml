@@ -69,3 +69,21 @@ services:
     depends_on:
       - db
 
+  syncservice:
+    image: syncservice
+    build: 
+      context: .
+      dockerfile: ./SyncService/Dockerfile
+    container_name: syncservice
+    environment:
+      - APP_DB_URL=Username=postgres;Password=${POSTGRES_PASSWORD};Host=db;Database=postgres;
+      - REDIS_HOST=cache
+      - LOG_LEVEL=debug
+    ports:
+      - "8002:82"
+    networks:
+      - simple_network
+    depends_on:
+      - db
+      - cache
+
