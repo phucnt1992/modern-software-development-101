@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const generateUniqueId = require("generate-unique-id");
 const { Pool } = require("pg");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ const pool = new Pool({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use(cors());
 
 app.post("/api/shorten", async (req, res) => {
   try {
@@ -58,7 +60,6 @@ app.get("/:shortURL", async (req, res) => {
       [`${req.headers.host}/${shortURL}`]
     );
     client.release();
-
     if (result.rows.length > 0) {
       const originalUrl = result.rows[0].original_url;
       res.redirect(301, originalUrl);
