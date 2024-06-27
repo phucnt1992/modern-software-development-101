@@ -75,7 +75,6 @@ app.get("/:shortURL", async (req, res) => {
       const cachedHtml = await redisClient.get(
         `${req.headers.host}/${shortURL}`
       );
-      console.log(cachedHtml);
       if (cachedHtml) {
         res.send(cachedHtml);
       } else {
@@ -88,7 +87,6 @@ app.get("/:shortURL", async (req, res) => {
           "EX",
           3600
         );
-
         res.redirect(301, originalUrl);
       }
     } else {
