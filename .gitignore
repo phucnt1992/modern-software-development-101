@@ -404,3 +404,6 @@ FodyWeavers.xsd
 # cucumber
 .features-gen
 cucumber-report
+
+# dotenv
+.env
