@@ -50,6 +50,15 @@ app.post("/api/shorten", async (req, res) => {
         [originalUrl, `${req.headers.host}/${shortURL}`]
       );
       client.release();
+      const htmlContent = await fetch(originalUrl).then((response) =>
+        response.text()
+      );
+      redisClient.set(
+        `${req.headers.host}/${shortURL}`,
+        htmlContent,
+        "EX",
+        3600
+      );
       res
         .status(201)
         .json({ originalUrl, shortURL: result.rows[0].shortened_url });
@@ -69,7 +78,6 @@ app.get("/:shortURL", async (req, res) => {
       [`${req.headers.host}/${shortURL}`]
     );
     client.release();
-
     if (result.rows.length > 0) {
       const originalUrl = result.rows[0].original_url;
       const cachedHtml = await redisClient.get(
@@ -80,14 +88,13 @@ app.get("/:shortURL", async (req, res) => {
       } else {
         const response = await fetch(originalUrl);
         const htmlContent = await response.text();
-
-        await redisClient.set(
+        redisClient.set(
           `${req.headers.host}/${shortURL}`,
           htmlContent,
           "EX",
           3600
         );
-        res.redirect(301, originalUrl);
+        res.send(htmlContent);
       }
     } else {
       res.status(404).json({ error: "Short URL not found" });
