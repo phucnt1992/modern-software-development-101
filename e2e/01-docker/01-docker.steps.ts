@@ -30,4 +30,3 @@ Then('I should receive a response with body {string}', async ({}, expectedBody: 
   const actualBody = await response.text();
   expect(actualBody).toBe(expectedBody);
 });
-
