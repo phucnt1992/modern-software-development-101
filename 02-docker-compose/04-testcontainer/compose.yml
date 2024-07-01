@@ -1,0 +1,35 @@
+networks:
+  simple_network:
+
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - simple_network
+
+  web:
+    image: simple_app
+    build: .
+    container_name: simple_app
+    environment:
+      - APP_DB_URL=postgresql+asyncpg://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      - LOG_LEVEL=debug
+    ports:
+      - "8000:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/api/_healthz/readiness"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - simple_network
+    depends_on:
+      - db
+

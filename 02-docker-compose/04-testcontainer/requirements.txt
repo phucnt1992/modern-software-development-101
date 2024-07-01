@@ -1,0 +1,7 @@
+fastapi[all]
+sqlmodel
+asyncpg
+
+pytest
+pytest-asyncio
+testcontainers[postgres]

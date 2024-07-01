@@ -407,3 +407,8 @@ cucumber-report
 
 # dotenv
 .env
+
+# Python
+*.pyc
+__pycache__/
+.venv

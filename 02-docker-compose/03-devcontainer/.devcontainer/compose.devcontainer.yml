@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: "mcr.microsoft.com/devcontainers/base:jammy"
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - "3000:3000"
+    command: "sleep infinity"
+    network_mode: service:db
+    depends_on:
+      - db
