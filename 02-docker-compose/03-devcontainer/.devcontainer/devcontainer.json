@@ -1,0 +1,53 @@
+{
+  "name": "Simple App via Python + Fast API",
+  // "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "dockerComposeFile": "compose.devcontainer.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  // "dockerFile": "Dockerfile",
+  // "build": {
+  //   "args": {
+  //     "VARIANT": "jammy"
+  //   }
+  // }
+  "features": {
+    "ghcr.io/devcontainers/features/git": {
+      "ppa": "true"
+    },
+    "ghcr.io/devcontainers/features/python": {
+      "version": "os-provided"
+    },
+    "ghcr.io/devcontainers/features/node": {},
+    "ghcr.io/audacioustux/devcontainers/taskfile": {}
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "forwardPorts": [
+    5432,
+    3000,
+    1000,
+    1001,
+    1002
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL"
+    },
+    "1000-1002": {
+      "label": "Azurite Blob, Queue, and Table Storage",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8"
+      ]
+    }
+  }
+}
