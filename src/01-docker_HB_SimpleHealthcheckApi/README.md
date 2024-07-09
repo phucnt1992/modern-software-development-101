@@ -1,8 +1,8 @@
-# SimpleHealthcheckApi README
+# README
 ## Prerequisite
 - Create project
 ```ps1
-dotnet new webapi -n SimpleHealthcheckApi -o 01-docker_HB_SimpleHealthcheckApi
+dotnet new webapi -n SimpleHealthcheckApi -o src\01-docker_HB_SimpleHealthcheckApi
 ```
 
 ## Do all in one

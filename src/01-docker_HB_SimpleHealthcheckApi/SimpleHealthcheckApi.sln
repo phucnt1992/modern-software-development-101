@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6630AEBE-F057-47A3-8662-90EFF6B79A8A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleHealthcheckApi", "src\01-docker_HB_SimpleHealthcheckApi\SimpleHealthcheckApi.csproj", "{D72445DA-2751-48FD-9454-E273BA21A781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleHealthcheckApi", "SimpleHealthcheckApi.csproj", "{D72445DA-2751-48FD-9454-E273BA21A781}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
