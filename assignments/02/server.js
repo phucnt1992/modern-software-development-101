@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const generateUniqueId = require("generate-unique-id");
@@ -5,22 +7,21 @@ const { Pool } = require("pg");
 const cors = require("cors");
 const redis = require("redis");
 const fetch = require("node-fetch");
-const { promisify } = require("util");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "url_shortener",
-  password: "123",
-  port: 5432,
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: process.env.PGPORT
 });
 
 const redisClient = redis.createClient({
-  host: "localhost",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
