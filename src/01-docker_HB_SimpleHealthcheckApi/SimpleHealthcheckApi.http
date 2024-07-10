@@ -1,0 +1,6 @@
+@SimpleHealthcheckApi_HostAddress = http://localhost:5049
+
+GET {{SimpleHealthcheckApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
