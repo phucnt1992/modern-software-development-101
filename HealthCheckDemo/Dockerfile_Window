@@ -1,0 +1,17 @@
+# Use the Windows SDK image to build the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0-windowsservercore-ltsc2019 AS build
+WORKDIR /src/HealthCheckDemo
+COPY . .
+RUN dotnet restore "HealthCheckDemo.csproj"
+RUN dotnet build "HealthCheckDemo.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "HealthCheckDemo.csproj" -c Release -o /app/publish
+
+# Use the Windows runtime image as a parent image
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-windowsservercore-ltsc2019
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS=http://+:80
+ENTRYPOINT ["dotnet", "HealthCheckDemo.dll"]
