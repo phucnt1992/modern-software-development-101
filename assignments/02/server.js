@@ -12,16 +12,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const pool = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT
+  connectionString: process.env.DB_CONNECTION_STRING
 });
 
 const redisClient = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT
+  url: process.env.CACHE_CONNECTION_STRING
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));

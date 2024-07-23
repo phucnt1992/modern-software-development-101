@@ -3,38 +3,34 @@ version: '3.8'
 services:
   app:
     build:
-      context: ./docker/app
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.app
     ports:
       - "${PORT}:3000"
     depends_on:
-      - postgres
-      - redis
+      - db
+      - cache
     environment:
       - PORT=${PORT}
       - NODE_ENV=${NODE_ENV}
-      - PGUSER=${POSTGRES_USER}
-      - PGHOST=postgres
-      - PGDATABASE=${POSTGRES_DB}
-      - PGPASSWORD=${POSTGRES_PASSWORD}
-      - PGPORT=5432
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
+      - DB_CONNECTION_STRING=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      - CACHE_CONNECTION_STRING=redis://${REDIS_HOST}:${REDIS_PORT}
 
-  postgres:
+  db:
     build:
-      context: ./docker/postgres
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.postgres
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
 
-  redis:
+  cache:
     build:
-      context: ./docker/redis
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.redis
     ports:
-      - "6379:${REDIS_PORT}"
+      - "${REDIS_PORT}:${REDIS_PORT}"
